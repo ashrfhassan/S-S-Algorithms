@@ -2,28 +2,9 @@
 let unsortedArr = [25, 5, 8, 3, 6, 2, 1];
 //sorting
 
-// insertion sort
-
-function insertionSort(arr) {
-    console.time();
-    for (let i = 0; i < arr.length; i++) {
-        let currentNum = arr[i], j;
-        for (j = i - 1; j > -1 && arr[j] > currentNum; j--) {
-            arr[j + 1] = arr[j]
-        }
-        arr[j + 1] = currentNum;
-    }
-
-    console.log("Insertion sort:", arr, "with time:");
-    console.timeEnd();
-}
-
-insertionSort(unsortedArr);
-console.log("================================================>");
-//buble sort
+//buble sort compares two sequential numbers then swaps
 
 function bubleSort(arr) {
-    console.time();
     let swaped;
     do {
         swaped = false;
@@ -37,18 +18,18 @@ function bubleSort(arr) {
         }
 
     } while (swaped);
-
-    console.log("Buble sort:", arr, "with time:");
-    console.timeEnd();
+    return arr;
 }
 
-bubleSort(unsortedArr);
+console.time();
+console.log("bubble sort:", bubleSort([...unsortedArr]), "with time:");
+console.timeEnd();
+
 console.log("================================================>");
 
-// selection sort
+// selection sort searches for the lowest number to swap with the current
 
 function selectionSort(arr) {
-    console.time();
     for (let i = 0; i < arr.length; i++) {
         let minIndex = i;
         for (let j = i + 1; j < arr.length; j++) {
@@ -60,47 +41,69 @@ function selectionSort(arr) {
         arr[i] = arr[minIndex];
         arr[minIndex] = currentNum;
     }
-
-    console.log("selection sort:", arr, "with time:");
-    console.timeEnd();
+    return arr;
 }
 
-selectionSort(unsortedArr);
+console.time();
+console.log("selection sort:", selectionSort([...unsortedArr]), "with time:");
+console.timeEnd();
+
 console.log("================================================>");
 
-// merge sort
+// insertion sort searches in previous numbers to see lower 
+// and greater numbers than the current to insert the current in between
 
-function merge(leftArr, rightArr) {
+function insertionSort(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        let currentNum = arr[i], j;
+        for (j = i - 1; j > -1 && arr[j] > currentNum; j--) {
+            arr[j + 1] = arr[j]
+        }
+        arr[j + 1] = currentNum;
+    }
+    return arr;
+}
+
+console.time();
+console.log("insertion sort:", insertionSort([...unsortedArr]), "with time:");
+console.timeEnd();
+
+console.log("================================================>");
+
+// merge sort keeps splitting array till we have multiple arrays
+// of a single el then re-merge them asendening
+
+function mergeTwoSortedArray(leftArr, rightArr) {
     var sortedArr = [];
-    while (leftArr.length && rightArr.length) {
-        if (leftArr[0] <= rightArr[0]) {
-            sortedArr.push(leftArr[0]);
-            leftArr = leftArr.slice(1)
-        } else {
-            sortedArr.push(rightArr[0]);
-            rightArr = rightArr.slice(1)
+    while(leftArr.length && rightArr.length){
+        if(leftArr[0] < rightArr[0]){
+            sortedArr.push(leftArr.splice(0, 1)[0]);
+        }else{
+            sortedArr.push(rightArr.splice(0, 1)[0]);
         }
     }
-    while (leftArr.length)
-        sortedArr.push(leftArr.shift());
-    while (rightArr.length)
-        sortedArr.push(rightArr.shift());
+    while(leftArr.length){
+        sortedArr.push(leftArr.splice(0, 1)[0]);
+    }
+    while(rightArr.length){
+        sortedArr.push(rightArr.splice(0, 1)[0]);
+    }
     return sortedArr;
 }
 function mergeSort(arr) {
-    if (arr.length < 2) {
+    if (arr.length <= 1) {
         return arr;
     }
-    var midpoint = parseInt(arr.length / 2);
+    var midpoint = Math.floor(arr.length / 2);
     var leftArr = arr.slice(0, midpoint);
     var rightArr = arr.slice(midpoint, arr.length);
-    return merge(mergeSort(leftArr), mergeSort(rightArr));
+    return mergeTwoSortedArray(mergeSort(leftArr), mergeSort(rightArr));
 }
 
-
 console.time();
-console.log("merge sort:", mergeSort(unsortedArr), "with time:");
+console.log("merge sort:", mergeSort([...unsortedArr]), "with time:");
 console.timeEnd();
+
 console.log("================================================>");
 
 // searching 
@@ -120,7 +123,7 @@ function linearSearch(arr, x) {
     console.timeEnd();
 }
 
-linearSearch(unsortedArr, 3);
+linearSearch([...unsortedArr], 3);
 console.log("================================================>");
 
 // binary search
@@ -146,5 +149,5 @@ function binarySearch(arr, x) {
     console.timeEnd();
 }
 
-binarySearch(unsortedArr, 3);
+binarySearch([...unsortedArr], 3);
 console.log("================================================>");
