@@ -1,5 +1,5 @@
 // testing variables
-let unsortedArr = [25, 5, 8, 3, 6, 2, 1];
+let unsortedArr = [5, 7, 3, 6, 2, 1, 4];
 //sorting
 
 //buble sort compares two sequential numbers then swaps
@@ -8,7 +8,7 @@ function bubleSort(arr) {
     let swaped;
     do {
         swaped = false;
-        for (let i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length - 1; i++) {
             let currentNum = arr[i];
             if (currentNum > arr[i + 1]) {
                 arr[i] = arr[i + 1];
@@ -75,17 +75,17 @@ console.log("================================================>");
 
 function mergeTwoSortedArray(leftArr, rightArr) {
     var sortedArr = [];
-    while(leftArr.length && rightArr.length){
-        if(leftArr[0] < rightArr[0]){
+    while (leftArr.length && rightArr.length) {
+        if (leftArr[0] < rightArr[0]) {
             sortedArr.push(leftArr.splice(0, 1)[0]);
-        }else{
+        } else {
             sortedArr.push(rightArr.splice(0, 1)[0]);
         }
     }
-    while(leftArr.length){
+    while (leftArr.length) {
         sortedArr.push(leftArr.splice(0, 1)[0]);
     }
-    while(rightArr.length){
+    while (rightArr.length) {
         sortedArr.push(rightArr.splice(0, 1)[0]);
     }
     return sortedArr;
@@ -102,6 +102,45 @@ function mergeSort(arr) {
 
 console.time();
 console.log("merge sort:", mergeSort([...unsortedArr]), "with time:");
+console.timeEnd();
+
+console.log("================================================>");
+
+// quick sort is about pick pivot number then iterate on array then
+// move all smaller elements on the left side so the larger will be on the right side
+// then recursively repeat that on both side
+function swap(arr, firstIndex, secondIndex) {
+    temp = arr[firstIndex];
+    arr[firstIndex] = arr[secondIndex];
+    arr[secondIndex] = temp;
+}
+
+function pivot(arr, start, end) {
+    pivotNumIndex = start;
+    swapIndex = start;
+    for (i = start + 1; i <= end; i++) {
+        if (arr[pivotNumIndex] > arr[i]) {
+            swapIndex++;
+            swap(arr, swapIndex, i);
+        }
+    }
+    swap(arr, swapIndex, pivotNumIndex);
+    return swapIndex // is now the pivotNumIndex
+}
+
+function quickSort(arr, start, end) {
+    if (start < end) {
+        var pivotIndex = pivot(arr, start, end);
+        // left
+        quickSort(arr, start, pivotIndex - 1)
+        // right
+        quickSort(arr, pivotIndex + 1, end)
+    }
+    return arr;
+}
+
+console.time();
+console.log("quick sort:", quickSort([...unsortedArr], 0, unsortedArr.length - 1), "with time:");
 console.timeEnd();
 
 console.log("================================================>");
@@ -149,5 +188,5 @@ function binarySearch(arr, x) {
     console.timeEnd();
 }
 
-binarySearch([...unsortedArr], 3);
+binarySearch(mergeSort([...unsortedArr]), 8);
 console.log("================================================>");
