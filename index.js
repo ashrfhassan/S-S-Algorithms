@@ -162,7 +162,7 @@ function linearSearch(arr, x) {
     console.timeEnd();
 }
 
-linearSearch([...unsortedArr], 3);
+linearSearch([...unsortedArr], 6);
 console.log("================================================>");
 
 // binary search
@@ -188,5 +188,5 @@ function binarySearch(arr, x) {
     console.timeEnd();
 }
 
-binarySearch(mergeSort([...unsortedArr]), 8);
+binarySearch(mergeSort([...unsortedArr]), 6);
 console.log("================================================>");
