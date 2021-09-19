@@ -128,7 +128,7 @@ function pivot(arr, start, end) {
     return swapIndex // is now the pivotNumIndex
 }
 
-function quickSort(arr, start, end) {
+function quickSort(arr, start = 0, end = arr.length -1) {
     if (start < end) {
         var pivotIndex = pivot(arr, start, end);
         // left
