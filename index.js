@@ -128,7 +128,7 @@ function pivot(arr, start, end) {
     return swapIndex // is now the pivotNumIndex
 }
 
-function quickSort(arr, start = 0, end = arr.length -1) {
+function quickSort(arr, start = 0, end = arr.length - 1) {
     if (start < end) {
         var pivotIndex = pivot(arr, start, end);
         // left
@@ -190,3 +190,120 @@ function binarySearch(arr, x) {
 
 binarySearch(mergeSort([...unsortedArr]), 6);
 console.log("================================================>");
+
+// linked list
+
+function Node(val) {
+    this.val = val;
+    this.next = null;
+}
+
+function LinkedList() {
+    this.head = null;
+    this.size = 0;
+
+    this.push = (val) => {
+        var node = new Node(val);
+        if (!this.head) {
+            this.head = node;
+        } else {
+            var current = this.head;
+            while (current.next) {
+                current = current.next;
+            }
+            current.next = node;
+        }
+        this.size++;
+        return node;
+    }
+
+    this.pop = () => {
+        if (!this.head)
+            return undefined;
+        var pre;
+        var current = this.head;
+        if (!this.head.next) {
+            this.head = null;
+            this.size--;
+            return current;
+        }
+        while (current.next) {
+            pre = current;
+            current = current.next;
+        }
+        pre.next = null;
+        this.size--;
+        return current;
+    }
+
+    this.find = (val) => {
+        if (!this.head)
+            return undefined;
+        if (this.head.val == val) {
+            return this.head;
+        }
+        var current = this.head;
+        while (current.next) {
+            current = current.next;
+            if (current.val == val) {
+                return current;
+            }
+        }
+        return undefined;
+    }
+
+    this.insert = (val, index = this.size) => {
+        if (this.size < index)
+            return this.push(val);
+        var node = new Node(val);
+        var pre;
+        var current = this.head;
+        var counter = 1;
+        if (index == 1) {
+            node.next = this.head;
+            this.head = node;
+        } else {
+            while (counter != index) {
+                pre = current;
+                current = current.next;
+                counter++;
+            }
+            node.next = current;
+            pre.next = node;
+        }
+        this.size++;
+        return node;
+    }
+
+    this.remove = (val) => {
+        if (!this.head)
+            return undefined;
+        var pre;
+        var current = this.head;
+        if (this.head.val == val) {
+            this.head = this.head.next;
+            return current;
+        }
+        while (current.next && current.val != val) {
+            pre = current;
+            current = current.next;
+        }
+        if (current.val == val) {
+            pre.next = current.next;
+            return current;
+        }
+        return undefined;
+    }
+
+    this.clear = () => {
+        this.head = null;
+    }
+}
+
+var list = new LinkedList();
+list.push("Hi");
+list.push("am");
+list.push("ashraf");
+list.insert("I", 2);
+
+console.dir(list);
