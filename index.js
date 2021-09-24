@@ -191,6 +191,32 @@ function binarySearch(arr, x) {
 binarySearch(mergeSort([...unsortedArr]), 6);
 console.log("================================================>");
 
+// stack & queue
+
+function Stack() {
+    this.data = [];
+
+    this.push = (val) => {
+        this.data.push(val);
+    }
+
+    this.pop = () => {
+        return this.data.pop();
+    }
+}
+
+function Queue() {
+    this.data = [];
+
+    this.push = (val) => {
+        this.data.push(val);
+    }
+
+    this.pop = () => {
+        return this.data.shift();
+    }
+}
+
 // linked list
 
 function Node(val) {
@@ -303,7 +329,88 @@ function LinkedList() {
 var list = new LinkedList();
 list.push("Hi");
 list.push("am");
-list.push("ashraf");
+list.push("ash");
+list.push(",");
 list.insert("I", 2);
+list.pop();
+list.remove("Hi")
+list.find("ash")
+console.dir('linked list structure: ', list);
+list.clear();
 
-console.dir(list);
+console.log("================================================>");
+
+// tree
+
+function TreeNode(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+}
+
+function Tree(rootNode = null) {
+    this.root = rootNode;
+
+    this.breadthFirstSearchListing = () => {
+        var vistedList = [];
+        var nodesQueue = new Queue();
+        var currentNode;
+        nodesQueue.push(this.root);
+
+        while (nodesQueue.data.length) {
+            currentNode = nodesQueue.pop();
+            vistedList.push(currentNode.val);
+            if (currentNode.left)
+                nodesQueue.push(currentNode.left);
+            if (currentNode.right)
+                nodesQueue.push(currentNode.right);
+        }
+
+        return vistedList;
+    }
+
+    this.depthFirstSearchListing = () => {
+        var vistedList = [];
+        function traverse(node) {
+            vistedList.push(node.val);
+            if (node.left) traverse(node.left);
+            if (node.right) traverse(node.right);
+        }
+        traverse(this.root);
+        return vistedList;
+    }
+}
+
+/* $$$ Tree visualizing $$$
+           10
+        19     6
+     99    8     20
+*/
+// level one
+var rootNode = new TreeNode(10);
+// level two
+var levelTwoLeftNode = new TreeNode(19); // left
+var levelTwoRightNode = new TreeNode(6); // right
+// level three
+var levelThreeLeftLeftNode = new TreeNode(99); // left left
+var levelThreeLeftRightNode = new TreeNode(8); // left right
+var levelThreeRightRightNode = new TreeNode(20); // right right
+// linking backward
+levelTwoLeftNode.left = levelThreeLeftLeftNode;
+levelTwoLeftNode.right = levelThreeLeftRightNode;
+levelTwoRightNode.right = levelThreeRightRightNode;
+rootNode.left = levelTwoLeftNode;
+rootNode.right = levelTwoRightNode;
+
+// create tree;
+var tree = new Tree(rootNode);
+
+console.time();
+console.log("breadthFirstSearch list:", tree.breadthFirstSearchListing(), "with time:");
+console.timeEnd();
+
+console.time();
+console.log("depthFirstSearch list:", tree.depthFirstSearchListing(), "with time:");
+console.timeEnd();
+
+console.log("================================================>");
