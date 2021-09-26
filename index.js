@@ -335,8 +335,7 @@ list.insert("I", 2);
 list.pop();
 list.remove("Hi")
 list.find("ash")
-console.dir('linked list structure: ', list);
-list.clear();
+console.log('linked list structure: ', list);
 
 console.log("================================================>");
 
@@ -412,5 +411,50 @@ console.timeEnd();
 console.time();
 console.log("depthFirstSearch list:", tree.depthFirstSearchListing(), "with time:");
 console.timeEnd();
+
+console.log("================================================>");
+
+// undirected Graph
+
+class UnDirectedGraph {
+    constructor() {
+        this.adjacencyList = {};
+    }
+
+    addVertex(name) {
+        if (!this.adjacencyList[name]) this.adjacencyList[name] = [];
+    }
+
+    addEdge(v1Name, v2Name) {
+        this.adjacencyList[v1Name].push(v2Name);
+        this.adjacencyList[v2Name].push(v1Name);
+    }
+
+    removeEdge(v1Name, v2Name) {
+        this.adjacencyList[v1Name] = this.adjacencyList[v1Name].filter((name) => name != v2Name);
+        this.adjacencyList[v2Name] = this.adjacencyList[v2Name].filter((name) => name != v1Name);
+    }
+
+    removeVertex(name) {
+        while (this.adjacencyList[name].length) {
+            let cureentVetex = this.adjacencyList[name].pop();
+            this.removeEdge(name, cureentVetex);
+        }
+        delete this.adjacencyList[name];
+    }
+}
+
+let unDirectedGraph = new UnDirectedGraph();
+unDirectedGraph.addVertex("Netherlands");
+unDirectedGraph.addVertex("Germany");
+unDirectedGraph.addVertex("Norway");
+unDirectedGraph.addEdge("Norway", "Germany");
+unDirectedGraph.addEdge("Norway", "Netherlands");
+unDirectedGraph.addEdge("Germany", "Netherlands");
+console.log('undirected graph structure: ', unDirectedGraph.adjacencyList);
+unDirectedGraph.removeEdge("Germany", "Netherlands");
+console.log('undirected graph structure: ', unDirectedGraph.adjacencyList);
+unDirectedGraph.removeVertex("Norway");
+console.log('undirected graph structure: ', unDirectedGraph.adjacencyList);
 
 console.log("================================================>");
