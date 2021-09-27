@@ -442,6 +442,26 @@ class UnDirectedGraph {
         }
         delete this.adjacencyList[name];
     }
+
+    depthFirstSearchListing(startNode) {
+        let visited = [];
+        let stack = new Stack();
+        let currentVertex;
+
+        stack.push(startNode);
+
+        while (stack.data.length) {
+            currentVertex = stack.pop();
+            if (!visited.includes(currentVertex)) visited.push(currentVertex);
+            this.adjacencyList[currentVertex].forEach((vertex) => {
+                if (!visited.includes(vertex)) {
+                    visited.push(vertex);
+                    stack.push(vertex);
+                }
+            });
+        }
+        return visited;
+    }
 }
 
 let unDirectedGraph = new UnDirectedGraph();
@@ -451,10 +471,16 @@ unDirectedGraph.addVertex("Norway");
 unDirectedGraph.addEdge("Norway", "Germany");
 unDirectedGraph.addEdge("Norway", "Netherlands");
 unDirectedGraph.addEdge("Germany", "Netherlands");
+
 console.log('undirected graph structure: ', unDirectedGraph.adjacencyList);
+
+console.time();
+console.log("depthFirstSearch list of graph:", unDirectedGraph.depthFirstSearchListing("Netherlands"), "with time:");
+console.timeEnd();
+
 unDirectedGraph.removeEdge("Germany", "Netherlands");
-console.log('undirected graph structure: ', unDirectedGraph.adjacencyList);
+console.log('undirected graph structure after remove edge: ', unDirectedGraph.adjacencyList);
 unDirectedGraph.removeVertex("Norway");
-console.log('undirected graph structure: ', unDirectedGraph.adjacencyList);
+console.log('undirected graph structure after remove vertex: ', unDirectedGraph.adjacencyList);
 
 console.log("================================================>");
